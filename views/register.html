@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>JustChat</title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="stylesheets/register.css">
+</head>
+<body>
+    <div class="bg">
+        <div></div>
+    </div>
+    <div class="container">
+        <form class="col-sm-offset-4 col-sm-4 form-horizontal" role="form" method="post" onsubmit="return false">
+            <fieldset>
+                <legend></legend>
+                <div class="mh"></div>
+                <div class="bg-primary">
+                    <p class="title"><span class="glyphicon glyphicon-hand-right" style="padding-right: 10px;"></span>欢迎新司机上牌<span class="glyphicon glyphicon-hand-left" style="padding-left: 10px;"></span></p>
+                </div>
+                <div class="mf"></div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+						<span class="glyphicon glyphicon-user"></span>
+						</span>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="输入新司机车牌" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-lock"></span>
+                        </span>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="输入新司机密码" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-lock"></span>
+                        </span>
+                        <input type="password" class="form-control" id="rpassword" name="rpassword" placeholder="再次输入新司机密码" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-warning btn-block" id="register">注册</button>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info btn-block" id="login">返回登录</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <script type="text/javascript" src="/lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/javascripts/register.js"></script>
+</body>
+</html>

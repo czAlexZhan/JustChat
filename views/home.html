@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>JustChat</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/chatRoom.css">
+    <link rel="stylesheet" type="text/css" href="/lib/notification-component/build/build.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/qqFace.css">
+    <script type="text/javascript" src="/lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery.qqFace.js"></script>
+    <script src="/lib/notification-component/build/build.js"></script>
+    <script type="text/javascript">
+    $('.dropdown-toggle').dropdown();
+    </script>
+</head>
+<body>
+    <div id="app">
+        <div data-reactroot class="window">
+            <div class="background">
+                <div></div>
+            </div>
+            <div class="app">
+                <div class="user-panel">
+                    <header class="info-header">
+                        <div class="avatar"><img src="/images/dog.jpg" alt="头像加载失败"></div>
+                        <div class="info">
+                            <span class="nickname" id="nickname"><%- user.name %></span>
+                            <div class=" pull-right dropdown">
+                                <button class="opt btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-list"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                    <li role="presentation" class="record">聊天记录</li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li role="presentation" class="modify">修改信息</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+                    <nav class="nav-tab">
+                        <div class="tab-item">
+                            <span class="glyphicon glyphicon-comment btn-lg"></span>
+                        </div>
+                        <div class="tab-item group" title="创建群组">
+                            <span class="glyphicon glyphicon-user btn-lg"></span>
+                        </div>
+                        <div class="tab-item system" title="系统设置">
+                            <span class="glyphicon glyphicon-cog btn-lg"></span>
+                        </div>
+                    </nav>
+                    <div class="user-list">
+                        <div class="user-list-item group">
+                            <div class="avatar"><img src="/images/dog.jpg"></div>
+                            <div class="unread">99+</div>
+                            <div class="user-content">
+                                <div>
+                                    <p>JustChat</p>
+                                    <p>14:11</p>
+                                </div>
+                                <div>
+                                    <p>此功能尚未开发</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="user-list-item person">
+                            <div class="avatar"><img src="/images/dog.jpg"></div>
+                            <div class="unread">99+</div>
+                            <div class="user-content">
+                                <div>
+                                    <p>userName</p>
+                                    <p>14:11</p>
+                                </div>
+                                <div>
+                                    <p>此功能尚未开发</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-panel">
+                    <div class="chat-panel-header">
+                        <span>聊天内容</span>
+                    </div>
+                    <div class="public-message-list message-list">
+                        
+                    </div>
+                    <div class="input-box">
+                        <input id="sayText" name="sayText" type="text" placeholder="输入回车" onkeydown="keySend(event)">
+                        <div class="bqing" title="表情"></div>
+                        <div class="tpian" title="图片">
+                            <input type="file" class="image-input" accept="image/gif,image/jpeg,image/png">
+                        </div>
+                    </div>
+
+                    <div class="chat-panel-private">
+                        <div class="chat-panel-header">
+                            <span></span>
+                        </div>
+                        <div class="private-message-list message-list">
+                            
+                        </div>
+                        <div class="input-box">
+                            <input id="sayText1" name="sayText" type="text" placeholder="输入回车" onkeydown="keySend(event)">
+                        </div>
+                        <!--<div class="input-group input-group-lg">-->
+                            <!--<label for="msgIn" class="sr-only">text</label>-->
+                            <!--<input type="text" class="form-control" id="private-msgIn" onkeydown="keySend(event)">-->
+                        <!--<span class="input-group-btn">-->
+                        <!--<button type="button" class="btn btn-primary" onclick="sendPrivateMessage()">发送</button>-->
+                        <!--</span>-->
+                        <!--</div>-->
+                    </div>
+                    <script type="text/javascript">
+                        $(function(){
+                            $('.bqing').qqFace({
+                                id : 'facebox',
+                                assign:'sayText',
+                                path:'arclist/'	//表情存放的路径
+                            });
+                        });
+                    </script>
+        </div>
+                <div class="group-manage">
+                    <section class="input-form">
+                        <div>
+                            <span>创建群组名</span>
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </div>
+                        <div>
+                            <input type="text">
+                            <button class="cBtn">确定</button>
+                        </div>
+                    </section>
+                </div>
+                <div class="system-setting">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading center-block">系统设置<i class="glyphicon glyphicon-remove"></i></div>
+                        <div class="panel-body">
+                            <div class="switch">
+                                <span>启动桌面通知</span>
+                                <div>
+                                    <div class="notify on"></div>
+                                </div>
+                            </div>
+                            <div style="height: 5px"></div>
+                            <div class="switch">
+                                <span>启动声音通知</span>
+                                <div>
+                                    <div class="sound on"></div>
+                                </div>
+                            </div>
+                            <div style="height: 5px"></div>
+                            <button class="btn btn-primary btn-block" type="button"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;注销</button>
+                            <div style="height: 5px"></div>
+                            <button type="button" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;源码</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <audio id="audio">
+                <source src="../audio/message.mp3" type="audio/mp3">
+                <source src="../audio/message.wav" type="audio/wav">
+            </audio>
+        </div>
+    </div>
+<script type="text/javascript" src="/javascripts/index.js"></script>
+<script type="text/javascript" src="/lib/socket.io.js"></script>
+<script type="text/javascript" src="/javascripts/chat-client.js"></script>
+</body>
+</html>
