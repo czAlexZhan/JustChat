@@ -1,0 +1,51 @@
+# JustChat
+JustChat是一款web聊天应用. 使用node.js,express搭建服务器，数据库使用mongoDB.
+## 功能
+1. 创建用户，创建群组，私聊，群聊
+2. 支持发送文字，图片，表情等消息类型
+3. 支持桌面通知，声音提醒，并可以在系统设置选择开启或关闭
+4. 支持重复登录验证
+5. 检测自动登录
+
+## 安装
+
+该项目依赖于node.js和mongoDB数据库。安装[node.js](https://nodejs.org/en/download/) ([中国镜像](https://npm.taobao.org/mirrors/node)). 安装[mongodb](https://docs.mongodb.com/manual/installation/).
+
+1. 克隆项目到本地 `git clone git@github.com:czAlexzhan/JustChat.git`
+2. 进入项目目录 `npm install`
+3. 运行项目服务端 `npm start`
+4. 打开 `127.0.0.1:3000` 查看效果
+
+## 目录结构
+
+```
+|-- [bin]                       // 启动服务器
+|-- [database]      			// 数据库定义
+		|-- dbHandle.js         // 操作数据库
+		|-- models.js 			// 数据库模型定义
+|-- [public] 					// 公共资源
+		|-- arclist 			// 表情文件
+		|-- audio 				// 声音文件
+		|-- fonts 				// 字体文件
+		|-- images 				// 图片文件
+		|-- javascripts 		// 客户端js文件
+		|-- lib                 // 依赖库
+		|-- stylesheets         // 样式库
+|-- [routes]                    // 路由配置
+		|-- index.js            // 基本配置
+		|-- users.js            // 用户配置
+|-- [views]                     // 前端页面文件
+		|-- error.html          // 错误页面
+		|-- home.html           // 聊天页面
+		|-- login.html          // 登录页面
+		|-- register.html       // 注册页面
+|-- app.js                      // 入口
+|-- chat-server.js              // 服务端代码
+|-- package.json                // npm
+
+```
+## 期待
+
+### v1.0
+
+* 尚未完成
