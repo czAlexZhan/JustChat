@@ -5,11 +5,18 @@ var server = require('socket.io')();
 var clients = new Array();  //存储所有客户端的socket和name
 var User = global.dbHandle.getModel('user');  //获取User集合对象
 var Content = global.dbHandle.getModel('content');  //获取Content集合对象
+//检查时间小于10
+function checkTime(i)
+{
+    if (i<10)
+    {i="0" + i;}
+    return i;
+}
 //设置时间
 function  getTime(){
     var date = new Date();
     var days = ['星期天','星期一','星期二','星期三','星期四','星期五','星期六'];
-    var time = days[date.getDay()] +' '+ (date.getHours()) +':'+ (date.getMinutes());
+    var time = days[date.getDay()] +' '+ checkTime(date.getHours()) +':'+ checkTime(date.getMinutes());
     return time;
 }
 //保存用户聊天数据
@@ -17,7 +24,7 @@ function storeContent(_name,_content,_type,_toUser,_time){
     //var Content = global.dbHandle.getModel('content');
     Content.create({
         name:_name,
-        content:_content,
+        data:_content,
         dataType:_type,
         toUser:_toUser,
         time:_time
@@ -60,11 +67,11 @@ server.on('connection',function(socket){
     socket.emit("system","system@:  Welcome ! Now chat with others");
 
     //监听广播用户发送的数据
-    socket.on('say',function(content){
+    socket.on('say',function(touser,content){
         console.log('Server: ' + client.name + 'say: ' + content);
         var time = getTime();
         //socket.emit('user-say',client.name,time,content);//用json传会不会更好
-        socket.broadcast.emit('user-say',client.name,time,content);
+        socket.broadcast.emit('user-say',client.name,time,touser,content);
         storeContent(client.name,content,'public','group',time);  //保存当前socket的聊天记录
     });
 

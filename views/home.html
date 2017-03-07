@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/chatRoom.css">
     <link rel="stylesheet" type="text/css" href="/lib/notification-component/build/build.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/qqFace.css">
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
     <script type="text/javascript" src="/lib/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="/lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="/lib/jquery.qqFace.js"></script>
@@ -53,77 +54,25 @@
                         </div>
                     </nav>
                     <div class="user-list">
-                        <div class="user-list-item group">
-                            <div class="avatar"><img src="/images/dog.jpg"></div>
-                            <div class="unread">99+</div>
-                            <div class="user-content">
-                                <div>
-                                    <p>JustChat</p>
-                                    <p>14:11</p>
-                                </div>
-                                <div>
-                                    <p>此功能尚未开发</p>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="chat-panel">
+                    <div class="chat-panel-public JustChat">
+                        <div class="chat-panel-header">
+                            <span>JustChat</span>
                         </div>
-                        <div class="user-list-item person">
-                            <div class="avatar"><img src="/images/dog.jpg"></div>
-                            <div class="unread">99+</div>
-                            <div class="user-content">
-                                <div>
-                                    <p>userName</p>
-                                    <p>14:11</p>
-                                </div>
-                                <div>
-                                    <p>此功能尚未开发</p>
-                                </div>
+                        <div class="public-message-list message-list">
+
+                        </div>
+                        <div class="input-box">
+                            <input class="sayText" name="sayText" type="text" placeholder="输入回车" onkeydown="sendMyMessage(event)">
+                            <div class="bqing" title="表情"></div>
+                            <div class="tpian" title="图片">
+                                <input type="file" class="image-input" accept="image/gif,image/jpeg,image/png">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="chat-panel">
-                    <div class="chat-panel-header">
-                        <span>聊天内容</span>
-                    </div>
-                    <div class="public-message-list message-list">
-                        
-                    </div>
-                    <div class="input-box">
-                        <input id="sayText" name="sayText" type="text" placeholder="输入回车" onkeydown="keySend(event)">
-                        <div class="bqing" title="表情"></div>
-                        <div class="tpian" title="图片">
-                            <input type="file" class="image-input" accept="image/gif,image/jpeg,image/png">
-                        </div>
-                    </div>
-
-                    <div class="chat-panel-private">
-                        <div class="chat-panel-header">
-                            <span></span>
-                        </div>
-                        <div class="private-message-list message-list">
-                            
-                        </div>
-                        <div class="input-box">
-                            <input id="sayText1" name="sayText" type="text" placeholder="输入回车" onkeydown="keySend(event)">
-                        </div>
-                        <!--<div class="input-group input-group-lg">-->
-                            <!--<label for="msgIn" class="sr-only">text</label>-->
-                            <!--<input type="text" class="form-control" id="private-msgIn" onkeydown="keySend(event)">-->
-                        <!--<span class="input-group-btn">-->
-                        <!--<button type="button" class="btn btn-primary" onclick="sendPrivateMessage()">发送</button>-->
-                        <!--</span>-->
-                        <!--</div>-->
-                    </div>
-                    <script type="text/javascript">
-                        $(function(){
-                            $('.bqing').qqFace({
-                                id : 'facebox',
-                                assign:'sayText',
-                                path:'arclist/'	//表情存放的路径
-                            });
-                        });
-                    </script>
-        </div>
                 <div class="group-manage">
                     <section class="input-form">
                         <div>
@@ -167,6 +116,15 @@
             </audio>
         </div>
     </div>
+    <script type="text/javascript">
+        $(function(){
+            $('.bqing').qqFace({
+                id : 'facebox',
+                assign:'sayText',
+                path:'arclist/'	//表情存放的路径
+            });
+        });
+    </script>
 <script type="text/javascript" src="/javascripts/index.js"></script>
 <script type="text/javascript" src="/lib/socket.io.js"></script>
 <script type="text/javascript" src="/javascripts/chat-client.js"></script>

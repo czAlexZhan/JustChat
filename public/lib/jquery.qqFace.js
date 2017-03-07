@@ -5,10 +5,10 @@
 			id : 'facebox',
 			path : 'face/',
 			assign : 'content',
-			tip : 'em_'
+			tip : 'emoji_'
 		};
 		var option = $.extend(defaults, options);
-		var assign = $('#'+option.assign);
+		var assign = $('.'+option.assign);
 		var id = option.id;
 		var path = option.path;
 		var tip = option.tip;
@@ -17,31 +17,51 @@
 			alert('缺少表情赋值对象。');
 			return false;
 		}
-		
-		$(this).click(function(e){
-			var strFace, labFace;
-			if($('#'+id).length<=0){
-				strFace = '<div id="'+id+'" style="position:absolute;display:none;z-index:1000;" class="qqFace">' +
-							  '<table border="0" cellspacing="0" cellpadding="0"><tr>';
-				for(var i=1; i<=75; i++){
-					labFace = '['+tip+i+']';
-					strFace += '<td><img src="'+path+i+'.gif" onclick="$(\'#'+option.assign+'\').setCaret();$(\'#'+option.assign+'\').insertAtCaret(\'' + labFace + '\');" /></td>';
-					if( i % 15 == 0 ) strFace += '</tr><tr>';
-				}
-				strFace += '</tr></table></div>';
-			}
-			$(this).parent().append(strFace);
-			var offset = $(this).position();
-			var top = offset.top + $(this).outerHeight();
-			$('#'+id).css('top','614px');
-			$('#'+id).css('left','137px');
-			$('#'+id).show();
-			e.stopPropagation();
+		$('.chat-panel').on('click','.input-box .bqing',function(e){
+            var strFace, labFace;
+            if($('#'+id).length<=0){
+                strFace = '<div id="'+id+'" style="position:absolute;display:none;z-index:1000;" class="qqFace">' +
+                    '<table border="0" cellspacing="0" cellpadding="0"><tr>';
+                for(var i=1; i<=75; i++){
+                    labFace = '['+tip+i+']';
+					// strFace += '<td><img src="'+path+i+'.png" onclick="$(\'.'+option.assign+'\').setCaret();$(\'.'+option.assign+'\').insertAtCaret(\'' + labFace + '\');$(\'.'+option.assign+'\').focus();" /></td>';
+                    strFace += '<td><img src="'+path+i+'.png" onclick="$(this).parents(\'.'+ 'input-box' +'\').children(\'.'+option.assign+'\').setCaret();$(this).parents(\'.'+ 'input-box' +'\').children(\'.'+option.assign+'\').insertAtCaret(\'' + labFace + '\');$(this).parents(\'.'+ 'input-box' +'\').children(\'.'+option.assign+'\').focus();" /></td>';
+                    if( i % 15 == 0 ) strFace += '</tr><tr>';
+                }
+                strFace += '</tr></table></div>';
+            }
+            $(this).parent().append(strFace);
+            var offset = $(this).position();
+            var top = offset.top + $(this).outerHeight();
+            $('#'+id).css('top','-212%');
+            // $('#'+id).css('left','137px');
+            $('#'+id).show();
+            e.stopPropagation();
 		});
+		// $(this).click(function(e){
+		// 	var strFace, labFace;
+		// 	if($('#'+id).length<=0){
+		// 		strFace = '<div id="'+id+'" style="position:absolute;display:none;z-index:1000;" class="qqFace">' +
+		// 					  '<table border="0" cellspacing="0" cellpadding="0"><tr>';
+		// 		for(var i=1; i<=75; i++){
+		// 			labFace = '['+tip+i+']';
+		// 			strFace += '<td><img style="max-width: 100%" src="'+path+i+'.png" onclick="$(\'.'+option.assign+'\').setCaret();$(\'.'+option.assign+'\').insertAtCaret(\'' + labFace + '\');" /></td>';
+		// 			if( i % 15 == 0 ) strFace += '</tr><tr>';
+		// 		}
+		// 		strFace += '</tr></table></div>';
+		// 	}
+		// 	$(this).parent().append(strFace);
+		// 	var offset = $(this).position();
+		// 	var top = offset.top + $(this).outerHeight();
+		// 	$('#'+id).css('top','-212%');
+		// 	// $('#'+id).css('left','137px');
+		// 	$('#'+id).show();
+		// 	e.stopPropagation();
+		// });
 
 		$(document).click(function(){
 			$('#'+id).hide();
-			// $('#'+id).remove();
+			$('#'+id).remove();
 		});
 	};
 
