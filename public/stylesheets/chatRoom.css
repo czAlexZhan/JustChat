@@ -12,6 +12,7 @@
 }
 img{
     max-width: 100%;
+    max-height: 100%;
 }
 a {
     text-decoration: none;
@@ -30,6 +31,85 @@ body{
     width:100%;
     height:100%;
 }
+
+.preview{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(24, 24, 25, 0.45);
+    z-index: 10000;
+    display: none;
+}
+.preview >div {
+    max-width: 25vw;
+    margin: 9vh auto;
+}
+.preview .showImg{
+    position: relative;
+    max-width:600px;
+    max-height: 400px;
+}
+.preview .showImg img{
+    box-shadow: 0 0 6px #333333;
+}
+.preview .showImg > div{
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: url("../images/CLOSE.png") no-repeat;
+    background-size: cover;
+    top:0;
+    right: -30px;
+    transition: transform .3s linear;
+}
+.preview .showImg > :nth-child(100n+2):hover{
+    transform: rotate(180deg);
+    cursor: pointer;
+}
+.preview .showImg .prenext{
+    width:100px;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top:-30px;
+    left:0;
+    line-height: 25px;
+}
+.preview .showImg .prenext span{
+    color: #e6e6e6;
+    font-size: 12px;
+    background: #3f7ebb;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+    box-shadow: 0 0 4px #333333;
+}
+.preview .img-tools{
+    position: absolute;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-around;
+    bottom:4%;
+    left:38%;
+    width:100px;
+    z-index: 10000;
+}
+.preview .img-tools span{
+    color: #e6e6e6;
+    font-size: 12px;
+    /*padding: 5px 20px;*/
+    background: #3f7ebb;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+    box-shadow: 0 0 4px #333333;
+}
+.preview .img-tools span:hover,.preview .showImg .prenext span:hover {
+    cursor: pointer;
+    background: #ad4e4e;
+}
+
 .background, .background > div{
     height: 100%;
     background-repeat: no-repeat;
@@ -129,6 +209,7 @@ body{
     text-align:center;
     /*flex:1;*/
 }
+
 .group-manage{
     display: none;
     z-index: 11;
@@ -216,9 +297,13 @@ body{
 .input-form>:nth-child(1000n+2)>button:hover{
     background-color: #e0ae2b;
 }
+.input-form>:nth-child(1000n+2)>button:focus{
+    outline: none;
+}
 .panel-heading{
     text-align: center !important;
 }
+
 .system-setting{
     display: none;
     /*opacity: 0;*/
@@ -286,6 +371,112 @@ body{
     background-color: rgba(255, 255, 255, 0.93);
     border-color: #fcfaff;
 }
+.system-setting .github{
+    background-color: #2fc151;
+    height: 34px;
+    border-radius: 5px;
+    line-height: 34px;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.user-info{
+    /*display: -webkit-flex;*/
+    /*display: flex;*/
+    display: none;
+    position: absolute;
+    top: 30%;
+    right: 26%;
+    z-index: 11;
+    width:300px;
+    height:max-content;
+    /*flex-direction: column;*/
+    border-radius: 10px;
+    background: rgba(239, 233, 233, 0.24);
+}
+.user-info >:nth-child(100n+1){
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.user-info >:nth-child(100n+2){
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 4px 0;
+}
+.user-info >:nth-child(100n+3),.user-info .status{
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.user-info .status{
+    background: rgba(82, 82, 82, 0.09);
+    margin: 8px 0;
+    padding: 16px 0;
+}
+.user-info .status >div{
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+}
+.user-info>:nth-child(100n+5) button{
+    width: 120px;
+    height: 30px;
+    border-radius: 5px;
+    display: inherit;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 2px auto;
+    border: none;
+    background-color: #03a9f4;
+}
+.user-info>:nth-child(1000n+1) i:hover {
+    color: #000;
+}
+.user-info>:nth-child(1000n+1) i {
+    font-size: 20px;
+    color: #636363;
+    cursor: pointer;
+}
+
+#update-info>:nth-child(1000n+3) .input{
+    position: absolute;
+    display: block;
+    height: 22px;
+    width: 40%;
+    line-height: 22px;
+    text-align: center;
+    background: rgba(157, 171, 177, 0.57);
+    border-radius: 3px;
+    cursor: pointer;
+}
+#update-info>:nth-child(1000n+3) .avatar-input{
+    opacity: 0;
+    width: inherit;
+    height: inherit;
+
+}
+#update-info .info input{
+    height: 17px;
+    margin-bottom: 3px;
+}
+#update-info .upload-mask{
+    position: absolute;
+    text-align: center;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    line-height: 50px;
+    top: 0;
+    background: rgba(49, 48, 48, 0.53);
+}
+
 .app .user-panel .user-list{
     flex:8;
     display: -webkit-flex;
@@ -300,6 +491,13 @@ body{
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+    transition: all .3s linear;
+}
+.app .user-panel .user-list .user-list-item:hover{
+    background: rgba(50, 51, 51, 0.12);
+    transform: translateX(-5px);
+    transition: all .3s linear;
 }
 .app .user-panel .user-list .user-list-item .touxiang{
     width:50px;
@@ -385,6 +583,13 @@ body{
 }
 .message-list-item .message-self .text{
     background-color: rgba(47,58,128,0.1) !important;
+}
+.message-list-item .native-message>:nth-child(1000n+2) .image{
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 5px;
+    box-shadow: 0 0 4px #333333;
+    overflow: hidden;
 }
 .message-list-item .native-message>:first-child{
     margin: 5px;
@@ -477,33 +682,6 @@ body{
     border: 2px solid #5ea1e0;
     border-radius: 16px;
 }
-/*.chat-panel .chat-panel-private{*/
-    /*display: none;*/
-    /*width:100%;*/
-    /*height: 100%;*/
-    /*display: flex;*/
-    /*display: -webkit-flex;*/
-    /*flex-direction: column;*/
-    /*position: absolute;*/
-    /*background: rgba(0,0,0,0.8);*/
-    /*overflow: hidden;*/
-    /*z-index:100;*/
-/*}*/
-/*.chat-panel .chat-panel-private :before{*/
-    /*content: '';*/
-    /*position: absolute;*/
-    /*top:0;*/
-    /*bottom:0;*/
-    /*right:0;*/
-    /*left: 0;*/
-    /*filter:blur(20px);*/
-    /*-webkit-filter:blur(20px);*/
-    /*margin:-30px;*/
-/*}*/
-/*.chat-panel .chat-panel-private span{*/
-    /*color: #f9f9f9;*/
-/*}*/
-
 .chat-panel .input-box > div:hover{
      cursor: pointer;
  }

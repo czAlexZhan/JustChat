@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var mongoose = require('mongoose');
 var session = require('express-session');
+var qiniu = require('qiniu');
+var config = require('./config.js');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -22,10 +24,12 @@ app.use(session({
     }
 }));
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html',require("ejs").__express);
 app.set('view engine', 'html');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -35,14 +39,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use('/bower_components', express.static(__dirname + '/../bower_components'));
 
 app.use(function(req,res,next){
     res.locals.user = req.session.user;
-    // var err = req.session.error;
-    // delete req.session.error;
-    // if(err){
-    //     res.locals.message = err;
-    // }
     next();
 });
 
@@ -84,6 +84,14 @@ app.use(function(err, req, res, next) {
     });
 });
 
+//qiniu upLoad
+
+
+
+qiniu.conf.ACCESS_KEY = config.ACCESS_KEY;
+qiniu.conf.SECRET_KEY = config.SECRET_KEY;
+
+global.uptoken = new qiniu.rs.PutPolicy(config.Bucket_Name);
 
 module.exports = app;
 

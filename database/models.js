@@ -4,10 +4,18 @@
  */
 module.exports = {
     user:{
+        avatar:{type:String,required:true},
         name:{type:String,required:true},
         password:{type:String,required:true},
-        sex:{type:String,default:"boy"},
+        sex:{type:String,default:"男"},
+        career:{type:String,default:"学生"},
+        age:{type:String,default:"18"},
+        city:{type:String,default:"广州"},
         status:{type:String,default:"down"}
+    },
+    group:{
+        name:{type:String,required:true},
+        time:{type:String,require:true}
     },
     content:{
         name:{type:String,required:true},

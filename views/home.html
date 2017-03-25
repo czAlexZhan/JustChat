@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>JustChat</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/reset.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/chatRoom.css">
     <link rel="stylesheet" type="text/css" href="/lib/notification-component/build/build.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/qqFace.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/emoji.css">
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
     <script type="text/javascript" src="/lib/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="/lib/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/lib/jquery.qqFace.js"></script>
-    <script src="/lib/notification-component/build/build.js"></script>
     <script type="text/javascript">
     $('.dropdown-toggle').dropdown();
     </script>
@@ -20,26 +19,31 @@
 <body>
     <div id="app">
         <div data-reactroot class="window">
+            <div class="preview">
+                <div>
+                    <div class="showImg">
+                        <img>
+                        <div></div>
+                        <div class="prenext">
+                            <span>上一张</span>
+                            <span>下一张</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="img-tools">
+                    <span>左旋转</span>
+                    <span>右旋转</span>
+                </div>
+            </div>
             <div class="background">
                 <div></div>
             </div>
             <div class="app">
                 <div class="user-panel">
                     <header class="info-header">
-                        <div class="avatar"><img src="/images/dog.jpg" alt="头像加载失败"></div>
+                        <div class="avatar"><img src=<%- user.avatar %> alt="头像加载失败"></div>
                         <div class="info">
                             <span class="nickname" id="nickname"><%- user.name %></span>
-                            <div class=" pull-right dropdown">
-                                <button class="opt btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                                    <span class="glyphicon glyphicon-list"></span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                    <li role="presentation" class="record">聊天记录</li>
-                                    <li role="presentation" class="divider"></li>
-                                    <li role="presentation" class="modify">修改信息</li>
-                                </ul>
-                            </div>
                         </div>
                     </header>
                     <nav class="nav-tab">
@@ -54,10 +58,11 @@
                         </div>
                     </nav>
                     <div class="user-list">
+
                     </div>
                 </div>
                 <div class="chat-panel">
-                    <div class="chat-panel-public JustChat">
+                    <div class="chat-panel-public">
                         <div class="chat-panel-header">
                             <span>JustChat</span>
                         </div>
@@ -103,12 +108,102 @@
                                 </div>
                             </div>
                             <div style="height: 5px"></div>
-                            <button class="btn btn-primary btn-block" type="button"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;注销</button>
+                            <button class="btn btn-primary btn-block loginOut" type="button"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;注销</button>
                             <div style="height: 5px"></div>
-                            <button type="button" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;源码</button>
+                            <a class="github"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;源码</a>
                         </div>
                     </div>
                 </div>
+                <div id="user-info" class="user-info">
+                    <div>
+                        <div><i class="glyphicon glyphicon-remove"></i></div>
+                    </div>
+                    <div>
+                        <div style="width: 50px;height: 50px;overflow: hidden; border-radius:50%;"><img src=""></div>
+                    </div>
+                    <div>
+                        <span>火星男</span>
+                    </div>
+                    <div class="status">
+                        <div>
+                            <span>性别：</span>
+                            <span>年龄：</span>
+                            <span>职业：</span>
+                            <span>城市：</span>
+                        </div>
+                        <div class="info">
+                            <span>男</span>
+                            <span>18</span>
+                            <span>程序猿</span>
+                            <span>火星</span>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="chatPrivate">发起聊天</button>
+                    </div>
+                </div>
+                <div id="self-info" class="user-info">
+                    <div>
+                        <div><i class="glyphicon glyphicon-remove"></i></div>
+                    </div>
+                    <div>
+                        <div style="width: 50px;height: 50px;overflow: hidden; border-radius:50%;">
+                            <img>
+                        </div>
+                    </div>
+                    <div>
+                        <span></span>
+                    </div>
+                    <div class="status">
+                        <div>
+                            <span>性别：</span>
+                            <span>年龄：</span>
+                            <span>职业：</span>
+                            <span>城市：</span>
+                        </div>
+                        <div class="info">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="mInfo">编辑信息</button>
+                    </div>
+                </div>
+                <div id="update-info" class="user-info">
+                    <div>
+                        <div><i class="glyphicon glyphicon-remove"></i></div>
+                    </div>
+                    <div>
+                        <div style="position: relative;width: 50px;height: 50px;overflow: hidden; border-radius:50%;">
+                            <img>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="input">上传头像</span>
+                        <input type="file" class="avatar-input" id="image-input" accept="image/gif,image/jpeg,image/png,image/jpg">
+                    </div>
+                    <div class="status">
+                        <div>
+                            <span>性别：</span>
+                            <span>年龄：</span>
+                            <span>职业：</span>
+                            <span>城市：</span>
+                        </div>
+                        <div class="info">
+                            <input type="text" required="required">
+                            <input type="text" required="required">
+                            <input type="text" required="required">
+                            <input type="text" required="required">
+                        </div>
+                    </div>
+                    <div>
+                        <button class="updateInfo">更新信息</button>
+                    </div>
+                </div>
+
             </div>
             <audio id="audio">
                 <source src="../audio/message.mp3" type="audio/mp3">
@@ -116,6 +211,7 @@
             </audio>
         </div>
     </div>
+    <script type="text/javascript" src="/lib/emoji.js"></script>
     <script type="text/javascript">
         $(function(){
             $('.bqing').qqFace({
@@ -125,8 +221,14 @@
             });
         });
     </script>
-<script type="text/javascript" src="/javascripts/index.js"></script>
-<script type="text/javascript" src="/lib/socket.io.js"></script>
-<script type="text/javascript" src="/javascripts/chat-client.js"></script>
+    <script src="/lib/notification-component/build/build.js"></script>
+    <script type="text/javascript" src="/lib/qiniu.js"></script>
+    <script type="text/javascript" src="/lib/moxie.js"></script>
+    <script type="text/javascript" src="/lib/plupload.min.js"></script>
+    <script type="text/javascript" src="/javascripts/index.js"></script>
+    <script type="text/javascript" src="/lib/socket.io.js"></script>
+    <script type="text/javascript" src="/lib/sweet-alert.js"></script>
+    <script type="text/javascript" src="/javascripts/chat-client.js"></script>
+    <script type="text/javascript" src="/lib/base64.min.js"></script>
 </body>
 </html>

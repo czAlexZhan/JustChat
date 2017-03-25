@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>JustChat</title>
-    <link rel="stylesheet" href="stylesheets/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/reset.css">
     <link rel="stylesheet" href="stylesheets/login.css">
+    <link rel="stylesheet" href="stylesheets/sweet-alert.css">
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
 </head>
 <body>
@@ -13,38 +14,33 @@
         <div></div>
     </div>
     <div class="container">
-        <form class="form-horizontal col-sm-offset-4 col-sm-4" role="form" method="post" onsubmit="return false">
+        <form role="form" method="post" onsubmit="return false">
             <fieldset>
                 <legend></legend>
-                <div class="mh"></div>
-                <div class="panel-body">
-                    <p class="title">简聊</p>
-                </div>
-                <div class="mf"></div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="输入老司机车牌" required>
+                <div class="wrap">
+                    <div class="toxiang">
+                        <img src="../images/dog.jpg">
+                        <!--<input type="file" class="image-input" accept="image/gif,image/jpeg,image/png">-->
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-lock"></span>
-                        </span>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="输入老司机密码" required>
+                    <div class="un">
+                        <div></div>
+                        <input type="text" id="username" name="username" placeholder="输入用户名" required>
                     </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-info btn-block" id="login">登录</button>
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-warning btn-block" id="register">注册</button>
+                    <div class="pw">
+                        <div></div>
+                        <input type="password" id="password" name="password" placeholder="输入密码" required>
+                    </div>
+                    <div class="bt">
+                        <span id="register">注册</span>
+                        <button id="login">登录</button>
+                    </div>
                 </div>
             </fieldset>
         </form>
     </div>
     <script type='text/javascript' src="/lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/lib/sweet-alert.js"></script>
     <script type="text/javascript" src="/javascripts/login.js"></script>
+
 </body>
 </html>

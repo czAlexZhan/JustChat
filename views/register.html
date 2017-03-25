@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>JustChat</title>
-    <link rel="stylesheet" href="stylesheets/bootstrap.min.css" media="screen">
+    <!--<link rel="stylesheet" href="stylesheets/bootstrap.min.css" media="screen">-->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/reset.css">
     <link rel="stylesheet" href="stylesheets/register.css">
+    <link rel="stylesheet" href="stylesheets/sweet-alert.css">
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
 </head>
 <body>
@@ -13,48 +15,71 @@
         <div></div>
     </div>
     <div class="container">
-        <form class="col-sm-offset-4 col-sm-4 form-horizontal" role="form" method="post" onsubmit="return false">
+        <form class="form-register" role="form" method="post" onsubmit="return false">
             <fieldset>
                 <legend></legend>
-                <div class="mh"></div>
-                <div class="bg-primary">
-                    <p class="title"><span class="glyphicon glyphicon-hand-right" style="padding-right: 10px;"></span>欢迎新司机上牌<span class="glyphicon glyphicon-hand-left" style="padding-left: 10px;"></span></p>
-                </div>
-                <div class="mf"></div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-						<span class="glyphicon glyphicon-user"></span>
-						</span>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="输入新司机车牌" required>
+                <!--<div class="mh"></div>-->
+                <div class="wrap">
+                    <div class="bg-primary">
+                        <p class="title">新用户注册</p>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-lock"></span>
-                        </span>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="输入新司机密码" required>
+                    <div class="info">
+                        <div class="touxiang">
+                            <span class="input">上传头像</span>
+                            <input type="file" class="image-input" id="image-input" accept="image/gif,image/jpeg,image/png,image/jpg">
+                            <!--<button class="putImage">确定上传</button>-->
+                            <div class="img"><img></div>
+                        </div>
+                        <div class="un">
+                            <label for="username" class="sr-only">用户名</label>
+                            <input type="text" id="username" name="username" placeholder="输入用户名" required>
+                            <p style="color:rgba(234, 234, 234, 0.63);font-size: 12px">不能含有非法字符!@#等</p>
+                        </div>
+                        <div class="pw">
+                            <label for="password" class="sr-only">密码</label>
+                            <input type="password" id="password" name="password" placeholder="输入密码" required>
+                            <p style="color:rgba(234, 234, 234, 0.63);font-size: 12px">只能输入6-20个字母、数字、下划线</p>
+                        </div>
+                        <div class="rpw">
+                            <label for="rpassword" class="sr-only">重复密码</label>
+                            <input type="password" id="rpassword" name="rpassword" placeholder="再次输入密码" required>
+                        </div>
+                        <div class="career">
+                            <label for="career" class="sr-only">职业</label>
+                            <input type="text" id="career" name="career" placeholder="输入职业">
+                        </div>
+                        <div class="age">
+                            <label for="age" class="sr-only">年龄</label>
+                            <input type="text" id="age" name="age" placeholder="输入年龄">
+                        </div>
+                        <div class="city">
+                            <label for="city" class="sr-only">城市</label>
+                            <input type="text" id="city" name="city" placeholder="输入居住城市">
+                        </div>
+                        <div class="sex">
+                            <label>性别</label>
+                            <select class="option">
+                                <option>女</option>
+                                <option>男</option>
+                                <option>其他</option>
+                            </select>
+                        </div>
+                        <div class="register">
+                            <button type="button" class="btn" id="register">注册</button>
+                        </div>
+                        <div class="login">
+                            <span id="login">返回登录-></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-lock"></span>
-                        </span>
-                        <input type="password" class="form-control" id="rpassword" name="rpassword" placeholder="再次输入新司机密码" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-warning btn-block" id="register">注册</button>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-info btn-block" id="login">返回登录</button>
                 </div>
             </fieldset>
         </form>
     </div>
     <script type="text/javascript" src="/lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/lib/sweet-alert.js"></script>
+    <script type="text/javascript" src="/lib/moxie.js"></script>
+    <script type="text/javascript" src="/lib/plupload.min.js"></script>
+    <script type="text/javascript" src="/lib/qiniu.js"></script>
     <script type="text/javascript" src="/javascripts/register.js"></script>
 </body>
 </html>

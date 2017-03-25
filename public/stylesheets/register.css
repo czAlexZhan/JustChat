@@ -4,6 +4,9 @@
     /*background-size: cover;*/
     /*!*background-position: center center;*!*/
 /*}*/
+img{
+    max-width: 100% !important;
+}
 .bg, .bg > div{
     height: 100%;
     background-repeat: no-repeat;
@@ -26,13 +29,31 @@
     filter: blur(10px);
     z-index: -1;
 }
-.mh{
-    margin-top: 20px;
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+.container {
+    width: 400px;
+    margin: auto;
+    padding: 88px 0;
+}
+.wrap {
+    background-color: rgba(222, 222, 222, 0.31);
+    border: 1px solid #cecece;
+    box-shadow: 0 0 15px rgb(115, 114, 114);
 }
 .bg-primary{
-    /*width:100%;*/
-    border-radius: 4px;
-    height: 37px;
+    width:100%;
+    /*border-radius: 4px;*/
+    height: 40px;
+    background-color: #6187b2;
 }
 .title{
     font-size:20px;
@@ -41,6 +62,97 @@
     color:#ece7e7;
     line-height: 37px;
 }
-.mf{
-    margin: 20px 0;
+.info > div{
+    width: 230px;
+    height: 32px;
+    margin: 20px auto;
+}
+.info > div input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+    border-radius: 3px;
+    background: transparent;
+    border-bottom: 1px solid #424344;
+}
+.info > div input:focus{
+    outline: none;
+    border-bottom: 2px solid #424344;
+}
+.info .touxiang{
+    position: relative;
+    border-bottom: 1px solid #424344;
+    /*display: -webkit-flex;*/
+    /*display: flex;*/
+    /*flex-direction: row;*/
+}
+.touxiang .img{
+    position: absolute;
+    right: 0%;
+    bottom: -1%;
+    width: 50px;
+    height: 50px;
+}
+.touxiang .input{
+    position: absolute;
+    display: block;
+    height: 32px;
+    width: 43%;
+    line-height: 32px;
+    text-align: center;
+    background: #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.touxiang input{
+    opacity: 0;
+    width: inherit;
+    height: inherit;
+}
+
+button#register {
+    width: 100%;
+    height: 100%;
+    background: #f29223;
+    opacity: 0.9;
+    filter: alpha(opacity=90);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}
+span#login:hover {
+    color: #2a2780;
+}
+span#login {
+    display: block;
+    text-align: right;
+    color: #ccc9c9;
+    font-size: 13px;
+}
+button#register:hover,span#login:hover{
+    cursor: pointer;
+}
+.un{
+    background: url("../images/user.png") no-repeat 197px;
+}
+.pw,.rpw{
+    background: url("../images/password.png") no-repeat 197px;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #d2dadd;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #d2dadd;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #d2dadd;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #d2dadd;
 }

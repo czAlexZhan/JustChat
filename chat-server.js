@@ -2,9 +2,14 @@
  * Created by 詹 on 2016/11/15.
  */
 var server = require('socket.io')();
+// var mongoose = require('mongoose');
+// var dbs = mongoose.connection;
 var clients = new Array();  //存储所有客户端的socket和name
 var User = global.dbHandle.getModel('user');  //获取User集合对象
 var Content = global.dbHandle.getModel('content');  //获取Content集合对象
+var Group = global.dbHandle.getModel('group');  //获取Group集合对象
+
+
 //检查时间小于10
 function checkTime(i)
 {
@@ -36,9 +41,21 @@ function storeContent(_name,_content,_type,_toUser,_time){
         }
     });
 }
+//获取群组
+function  getGroup(ssocket) {
+    Group.find({},function (err,docs) {
+        if(err){
+            console.log(err);
+        }else{
+            console.log('group list --default:' + '\n' + docs);
+            // ssocket.broadcast.emit('group-list',docs);
+            ssocket.emit('group-list',docs);
+        }
+    });
+}
+
 //获取已上线用户
 function getUsersUp(ssocket){
-    //var User = global.dbHandle.getModel('user');
     User.find({status:"up"},function(err,docs){
         if(err){
             console.log(err);
@@ -52,8 +69,7 @@ function getUsersUp(ssocket){
 
 server.on('connection',function(socket){
     console.log('socket.id'+socket.id+':connecting');
-    getUsersUp(socket);
-
+    getGroup(socket);
     var client = {
         Socket:socket,
         name:""
@@ -67,16 +83,21 @@ server.on('connection',function(socket){
     socket.emit("system","system@:  Welcome ! Now chat with others");
 
     //监听广播用户发送的数据
-    socket.on('say',function(touser,content){
+    socket.on('say',function(touser,content,URL){
         console.log('Server: ' + client.name + 'say: ' + content);
         var time = getTime();
         //socket.emit('user-say',client.name,time,content);//用json传会不会更好
-        socket.broadcast.emit('user-say',client.name,time,touser,content);
+        socket.broadcast.emit('user-say',client.name,time,touser,content,URL);
         storeContent(client.name,content,'public','group',time);  //保存当前socket的聊天记录
     });
+    socket.on('img-public',function (touser, srcImg, avatarURL) {
+        var time = getTime();
+        socket.broadcast.emit('user-img',client.name,time,touser,srcImg,avatarURL);
+        storeContent(client.name,srcImg,'public','group',time);
+    })
 
     //监听用户私聊发送的数据
-    socket.on('say-private',function(fromuser,touser,content){
+    socket.on('say-private',function(fromuser,touser,content,URL){
         var toSocket = '';
         var time = getTime();
         for(var n in clients){  //用户群大不适用
@@ -87,51 +108,80 @@ server.on('connection',function(socket){
         console.log('toSocket: ' + toSocket.id);
         if(toSocket != ''){
             //socket.emit('say-private-done',touser,content);  //数据返回给fromuser
-            toSocket.emit('sayToYou',fromuser,time,content);  //数据发送给touser
+            toSocket.emit('sayToYou',fromuser,time,content,URL);  //数据发送给touser
             storeContent(fromuser,content,'private',touser,time);
             console.log(fromuser + " 给 " + touser + "发了私信： " + content);
         }
     });
-    //修改用户信息
-    function updateInfo(User,oldname,uname,usex){
-        User.update({name:oldname},{$set:{name:uname,sex:usex}},function(err,doc){
+    socket.on('img-private',function (fromuser, touser, srcImg, avatarURL) {
+        var toSocket = '';
+        var time = getTime();
+        for(var n in clients){  //用户群大不适用
+            if(clients[n].name === touser){
+                toSocket = clients[n].Socket;
+            }
+        }
+        console.log('toSocket: ' + toSocket.id);
+        if(toSocket != ''){
+            //socket.emit('say-private-done',touser,content);  //数据返回给fromuser
+            toSocket.emit('imgToYou',fromuser,time,srcImg,avatarURL);  //数据发送给touser
+            storeContent(fromuser,srcImg,'private',touser,time);
+            console.log(fromuser + " 给 " + touser + "发了私信： " + srcImg);
+        }
+    })
+    //获取用户信息
+    socket.on('getInfo',function (userName,id) {
+        User.find({name:userName},function (err, doc) {
             if(err){
                 console.log(err);
             }else{
-                for(var i in clients){
-                    if(clients[i].name === oldname){
-                        clients[i].name = uname;
-                    }
-                }
-                socket.emit('setInfoDone',oldname,uname,usex);  //向客户端返回信息更改成功
-                socket.broadcast.emit('setChangeInfo',oldname,uname,usex);
-                console.log(socket.id + ' ' + 'oldname Changes name to ' + uname);
-                global.username = uname; //？？？
-                getUsersUp(socket);  //应该向clients中的全socket更新
+                console.log("用户信息" + doc);
+                socket.emit('userInfo',doc,id);
             }
+        });
+    });
+    //创建群组
+    socket.on('createGroup',function (name) {
+        Group.findOne({name:name},function(err,doc){
+           if(doc){
+               socket.emit('echo',"群组已经存在");
+           }else{
+               Group.create({
+                   name:name,
+                   time:getTime()
+               });
+               socket.emit('echo','群组创建成功');
+               socket.emit('groupUpdate',name);
+               socket.broadcast.emit('groupUpdate',name);
+           }
+        });
+    });
+    //修改用户信息
+    function modifyInfo(name,data){
+        User.update({name:name},{$set:{avatar:data.avatar,sex:data.sex,age:data.age,career:data.career,city:data.city}},function(err,doc){
+            if(err){
+                console.log(err);
+                socket.emit('modifyFail',err);
+            }else{
+                // for(var i in clients){
+                //     if(clients[i].name === oldname){
+                //         clients[i].name = uname;
+                //     }
+                }
+                socket.broadcast.emit('urlUpdate',name,data.avatar)
+                socket.emit('setInfoDone',"信息更改成功",data.avatar);  //向客户端返回信息更改成功
+                // socket.broadcast.emit('setChangeInfo',oldname,uname,usex);
+                console.log(socket.id + ' ' + 'Change successed');
+                // global.username = uname; //？？？
+                // getUsersUp(socket);  //应该向clients中的全socket更新
         });
     }
 
     //监听客户端发过来的更新请求
-    socket.on('setInfo',function(oldname,uname,usex){
-        console.log(oldname + "  " + uname + "  " + usex);
-        //检查用户名冲突
-        //var User = global.dbHandle.getModel('user');
-        User.findOne({name:uname},function(err,doc){
-            if(err){
-                console.log(err);
-            }else if(doc){
-                if(oldname === uname){
-                    console.log('用户名没有变化');
-                    updateInfo(User,oldname,uname,usex);
-                }else{
-                    console.log("用户名已存在");
-                    socket.emit('nameExists',uname);
-                }
-            }else{
-                updateInfo(User,oldname,uname,usex);
-            }
-        });
+    socket.on('setInfo',function(name,data){
+        // console.log(oldname + "  " + uname + "  " + usex);
+
+        modifyInfo(name,data);
     });
 
     //监听客户端查找聊天记录 查询数据库聊天记录
@@ -146,6 +196,7 @@ server.on('connection',function(socket){
             }
         });
     });
+    //客户端连接断开
     socket.on('disconnect',function(){
         var name = "";
         for(var i in clients){

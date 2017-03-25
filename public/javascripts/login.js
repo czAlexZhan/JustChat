@@ -20,10 +20,8 @@ $('#login').click(function(){
         },
         error:function(dataRes,status){
             if(status == 'error'){
-                // console.log(dataRes)
-                // notify(dataRes.responseText).sticky();
-                alert(dataRes.responseText);
-                window.location.href = 'login';
+                sweetAlert("ERROR",dataRes.responseText,"error");
+                // window.location.href = 'login';
             }
         }
     });
