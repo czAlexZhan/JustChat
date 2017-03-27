@@ -147,7 +147,8 @@ function sendMyMessage(e) {
         }
         socket.emit('say', touser, content,avatarURL);
         $(e.target).val("");
-        $(e.target).parent().siblings('.message-list').append(`
+        var $dom = $(e.target).parent().siblings('.message-list');
+        $dom.append(`
             <div class="message-list-item">
                 <div class="native-message message-self">
                     <div class="avatar"><img src=${avatarURL}></div>
@@ -161,6 +162,8 @@ function sendMyMessage(e) {
                 </div>
             </div>
         `);
+
+        scrollBotttom($dom[0]);
     }
 }
 function uploadPubImg(e) {
@@ -179,7 +182,8 @@ function uploadPubImg(e) {
                         p += value;
                     });
                     transB6(_this,function(data,type){
-                        $(_this).parents('.input-box').siblings('.message-list').append(`
+                        var $dom = $(_this).parents('.input-box').siblings('.message-list');
+                        $dom.append(`
                             <div class="message-list-item">
                                 <div class="native-message message-self">
                                 <div class="avatar"><img src=${avatarURL}></div>
@@ -193,6 +197,7 @@ function uploadPubImg(e) {
                                 </div>
                             </div>
                         `);
+                        scrollBotttom($dom[0]);
                         // $(_this).parents('.input-box').siblings('.message-list').find('.image').children().css('opcity','0.45');
                         upload64(_this,data,type,0,p);
                     })
@@ -218,7 +223,8 @@ function sendPrivateMessage(e) {
 
         socket.emit('say-private', fromuser, touser, content,avatarURL);
         $(e.target).val("");
-        $(e.target).parent().siblings('.message-list').append(`
+        var $dom = $(e.target).parent().siblings('.message-list');
+        $dom.append(`
             <div class="message-list-item">
             <div class="native-message message-self">
             <div class="avatar"><img src=${avatarURL}></div>
@@ -232,6 +238,7 @@ function sendPrivateMessage(e) {
             </div>
             </div>
         `);
+        scrollBotttom($dom[0]);
     }
 }
 function uploadPriImg(e) {
@@ -250,7 +257,8 @@ function uploadPriImg(e) {
                         p += value;
                     });
                     transB6(_this,function(data,type){
-                        $(_this).parents('.input-box').siblings('.message-list').append(`
+                        var $dom = $(_this).parents('.input-box').siblings('.message-list');
+                        $dom.append(`
                             <div class="message-list-item">
                                 <div class="native-message message-self">
                                 <div class="avatar"><img src=${avatarURL}></div>
@@ -264,6 +272,7 @@ function uploadPriImg(e) {
                                 </div>
                             </div>
                         `);
+                        scrollBotttom($dom[0]);
                         // $(_this).parents('.input-box').siblings('.message-list').find('.image').children().css('opcity','0.45');
                         upload64(_this,data,type,1,p);
                     })
@@ -312,8 +321,15 @@ function checkUrl(str) {
         return false;
     }
 }
-
-
+//聊天信息自动滑动底部
+function scrollBotttom(dom) {
+    var height=dom.scrollHeight;
+    $(dom).animate({scrollTop:height}, 800);
+}
+//离线存储
+function offlineCache(group_name) {
+    socket.emit('findCache',group_name);
+}
 //监听连接，进入聊天
 socket.on('connect', function () {
     socket.send(username);
@@ -380,6 +396,7 @@ socket.on('group-list',function (docs) {
                         </div>
                     </div>
         `);
+        offlineCache(group_name);
     });
 })
 
@@ -397,10 +414,11 @@ socket.on('user-say', function (name, time, touser, content,URL) {
         notify(touser, content).hide();
     }
     audio.play();
-
-    $(".chat-panel" + " " + "." + touser + " " + ".public-message-list").append(
+    var $dom = $(".chat-panel" + " " + "." + touser).filter('.chat-panel-public').find('.public-message-list');
+    $dom.append(
         `<div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${URL}></div><div><div><span class="message-username">${name}</span><span class="time">${time}</span></div><div class="text">${replace_em(content)}</div></div></div></div>`
     );
+    scrollBotttom($dom[0]);
 });
 socket.on('user-img',function (name,time,touser,srcImg,URL) {
     var unread = $('.user-list' + ' ' + '.' + touser + ' ' + '.unread').text();
@@ -415,10 +433,11 @@ socket.on('user-img',function (name,time,touser,srcImg,URL) {
         notify(touser, '[图片]').hide();
     }
     audio.play();
-
-    $(".chat-panel" + " " + "." + touser + " " + ".public-message-list").append(
+    var $dom = $(".chat-panel" + " " + "." + touser).filter('.chat-panel-public').find('.public-message-list');
+    $dom.append(
         `<div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${URL}></div><div><div><span class="message-username">${name}</span><span class="time">${time}</span></div><div class="image"><img src=${srcImg}></div></div></div></div>`
     );
+    scrollBotttom($dom[0]);
 });
 //获取私聊信息
 socket.on('sayToYou', function (fromuser, time, content,URL) {
@@ -471,9 +490,11 @@ socket.on('sayToYou', function (fromuser, time, content,URL) {
         notify(fromuser, content).hide();
     }
     audio.play();
-    $(".chat-panel" + " " + "." + fromuser + " " + ".private-message-list").append(
+    var $dom = $(".chat-panel" + " " + "." + fromuser).filter('.chat-panel-private').find(".private-message-list");
+    $dom.append(
         `<div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${URL}></div><div><div><span class="message-username">${fromuser}</span><span class="time">${time}</span></div><div class="text">${replace_em(content)}</div></div></div></div>`
     );
+    scrollBotttom($dom[0]);
 });
 socket.on('imgToYou',function (fromuser, time, srcImg, URL) {
     if(!($('.user-list > div').hasClass(fromuser))){
@@ -525,9 +546,11 @@ socket.on('imgToYou',function (fromuser, time, srcImg, URL) {
         notify(fromuser, '[图片]').hide();
     }
     audio.play();
-    $(".chat-panel" + " " + "." + fromuser + " " + ".private-message-list").append(
+    var $dom = $(".chat-panel" + " " + "." + fromuser).filter('.chat-panel-private').find(".private-message-list");
+    $dom.append(
         `<div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${URL}></div><div><div><span class="message-username">${fromuser}</span><span class="time">${time}</span></div><div class="image"><img src=${srcImg}></div></div></div></div>`
     );
+    scrollBotttom($dom[0]);
 })
 //获取用户信息
 socket.on('userInfo',function (doc,id) {
@@ -606,7 +629,55 @@ socket.on('urlUpdate',function (who, url) {
        }
     });
 });
-
+//获取群组聊天缓存
+socket.on('megs-lists',function (name, docs) {
+    var $megs_panel = $('.chat-panel'+' '+'.'+name).filter('.chat-panel-public').find('.public-message-list');
+    $.each(docs,function (index, value) {
+        if(username == value.name){
+            if(value.dataType == 'text'){
+                $megs_panel.prepend(`
+                <div class="message-list-item">
+                    <div class="native-message message-self">
+                    <div class="avatar"><img src=${avatarURL}></div>
+                    <div>
+                    <div>
+                    <span class="message-username">${value.name}</span>
+                    <span class="time">${value.time}</span>
+                    </div>
+                    <div class="text">${replace_em(value.data)}</div>
+                    </div>
+                    </div>
+                </div>
+                `);
+            }else{
+                $megs_panel.prepend(`
+                    <div class="message-list-item">
+                                <div class="native-message message-self">
+                                <div class="avatar"><img src=${avatarURL}></div>
+                                <div>
+                                <div>
+                                <span class="message-username">${username}</span>
+                                <span class="time">${value.time}</span>
+                                </div>
+                                <div class="image"><img style="max-height: 200px;" src=${value.data}></div>
+                                </div>
+                                </div>
+                    </div>
+                `);
+            }
+        }else{
+            if(value.dataType == 'text'){
+                $megs_panel.prepend(`
+                    <div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${value.avatar}></div><div><div><span class="message-username">${value.name}</span><span class="time">${value.time}</span></div><div class="text">${replace_em(value.data)}</div></div></div></div>
+                `);
+            }else{
+                $megs_panel.prepend(`
+                    <div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${value.avatar}></div><div><div><span class="message-username">${value.name}</span><span class="time">${value.time}</span></div><div class="image"><img src=${value.data}></div></div></div></div>
+                `);
+            }
+        }
+    })
+});
 
 
 

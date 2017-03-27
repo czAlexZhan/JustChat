@@ -25,10 +25,11 @@ function  getTime(){
     return time;
 }
 //保存用户聊天数据
-function storeContent(_name,_content,_type,_toUser,_time){
+function storeContent(_name,url,_content,_type,_toUser,_time){
     //var Content = global.dbHandle.getModel('content');
     Content.create({
         name:_name,
+        avatar:url,
         data:_content,
         dataType:_type,
         toUser:_toUser,
@@ -88,12 +89,12 @@ server.on('connection',function(socket){
         var time = getTime();
         //socket.emit('user-say',client.name,time,content);//用json传会不会更好
         socket.broadcast.emit('user-say',client.name,time,touser,content,URL);
-        storeContent(client.name,content,'public','group',time);  //保存当前socket的聊天记录
+        storeContent(client.name,URL,content,'text',touser,time);  //保存当前socket的聊天记录
     });
     socket.on('img-public',function (touser, srcImg, avatarURL) {
         var time = getTime();
         socket.broadcast.emit('user-img',client.name,time,touser,srcImg,avatarURL);
-        storeContent(client.name,srcImg,'public','group',time);
+        storeContent(client.name,avatarURL,srcImg,'img',touser,time);
     })
 
     //监听用户私聊发送的数据
@@ -109,8 +110,8 @@ server.on('connection',function(socket){
         if(toSocket != ''){
             //socket.emit('say-private-done',touser,content);  //数据返回给fromuser
             toSocket.emit('sayToYou',fromuser,time,content,URL);  //数据发送给touser
-            storeContent(fromuser,content,'private',touser,time);
-            console.log(fromuser + " 给 " + touser + "发了私信： " + content);
+            storeContent(fromuser,URL,content,'text',touser,time);
+            // console.log(fromuser + " 给 " + touser + "发了私信： " + content);
         }
     });
     socket.on('img-private',function (fromuser, touser, srcImg, avatarURL) {
@@ -125,10 +126,20 @@ server.on('connection',function(socket){
         if(toSocket != ''){
             //socket.emit('say-private-done',touser,content);  //数据返回给fromuser
             toSocket.emit('imgToYou',fromuser,time,srcImg,avatarURL);  //数据发送给touser
-            storeContent(fromuser,srcImg,'private',touser,time);
-            console.log(fromuser + " 给 " + touser + "发了私信： " + srcImg);
+            storeContent(fromuser,avatarURL,srcImg,'img',touser,time);
+            // console.log(fromuser + " 给 " + touser + "发了私信： " + srcImg);
         }
-    })
+    });
+    //获取聊天记录
+    socket.on('findCache',function (groupName) {
+        Content.find({toUser:groupName},null,{limit: 20, sort:{_id:-1}},function (err, docs) {
+            if(err){
+                console.log(err);
+            }else{
+                socket.emit('megs-lists',groupName,docs);
+            }
+        });
+    });
     //获取用户信息
     socket.on('getInfo',function (userName,id) {
         User.find({name:userName},function (err, doc) {

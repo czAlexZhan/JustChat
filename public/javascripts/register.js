@@ -2,8 +2,6 @@
  * Created by czalexzhan on 2017/1/22.
  */
 
-
-
 function myFocues(root,handle) {
     root.focus(handle);
 }

@@ -19,6 +19,7 @@ module.exports = {
     },
     content:{
         name:{type:String,required:true},
+        avatar:{type:String,required:true},
         data:{type:String,require:true},
         dataType:{type:String,default:"public"},
         toUser:{type:String,default:"group"},

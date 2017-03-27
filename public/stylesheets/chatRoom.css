@@ -415,9 +415,10 @@ body{
     justify-content: center;
 }
 .user-info .status{
-    background: rgba(82, 82, 82, 0.09);
+    background: rgba(34, 36, 37, 0.77);
     margin: 8px 0;
     padding: 16px 0;
+    color: #dcdcdc;
 }
 .user-info .status >div{
     display: -webkit-flex;

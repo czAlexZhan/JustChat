@@ -262,8 +262,8 @@ $('#update-info .updateInfo').on('click',function (e) {
 });
 //点击显示原图
 $('.chat-panel').on('click','.image',function (e) {
-    var num = $('.chat-panel .image').index(this);
     var user = $(this).parents('.message-list').siblings('.chat-panel-header').children('span').text();
+    var num = $('.chat-panel'+' '+'.'+user+' '+'.image').index(this);
     var url = $(this).children('img').attr('src');
     var pureUrl = url.split('?');
     $('.preview .showImg img').attr('src',pureUrl[0]);
@@ -282,6 +282,7 @@ $('.preview .showImg >:nth-child(100n+2)').on('click',function () {
 //点击下一张
 $('.preview .prenext span:nth-child(100n+2)').on('click',function (e) {
     e.stopPropagation();
+    $('.preview .showImg img').attr('src','');
     var user = $('.preview .showImg img').attr('data-user');
     var $image_list = $('.chat-panel'+' '+'.'+user+' '+'.image');
     var list =  Number($('.preview .showImg img').attr('data-set'));
@@ -303,6 +304,7 @@ $('.preview .prenext span:nth-child(100n+2)').on('click',function (e) {
 //点击上一张
 $('.preview .prenext span:nth-child(100n+1)').on('click',function (e) {
     e.stopPropagation();
+    $('.preview .showImg img').attr('src','');
     var user = $('.preview .showImg img').attr('data-user');
     var $image_list = $('.chat-panel'+' '+'.'+user+' '+'.image');
     var list =  Number($('.preview .showImg img').attr('data-set'));
