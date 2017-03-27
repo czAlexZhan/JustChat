@@ -85,13 +85,13 @@ body{
     cursor: pointer;
     box-shadow: 0 0 4px #333333;
 }
-.preview .img-tools{
+.preview .showImg .img-tools{
     position: absolute;
     display: -webkit-flex;
     display: flex;
     justify-content: space-around;
-    bottom:4%;
-    left:38%;
+    top: 101%;
+    left:32%;
     width:100px;
     z-index: 10000;
 }
