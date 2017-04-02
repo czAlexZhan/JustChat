@@ -157,7 +157,7 @@ function sendMyMessage(e) {
                             <span class="message-username">${username}</span>
                             <span class="time">${getTime()}</span>
                         </div>
-                        <div class="text">${replace_em(content)}</div>
+                        <div class="text-self">${replace_em(content)}</div>
                     </div>
                 </div>
             </div>
@@ -233,7 +233,7 @@ function sendPrivateMessage(e) {
             <span class="message-username">${fromuser}</span>
             <span class="time">${getTime()}</span>
             </div>
-            <div class="text">${replace_em(content)}</div>
+            <div class="text-self">${replace_em(content)}</div>
             </div>
             </div>
             </div>
@@ -402,38 +402,40 @@ socket.on('group-list',function (docs) {
 
 //获取广播聊天
 socket.on('user-say', function (name, time, touser, content,URL) {
-    var unread = $('.user-list' + ' ' + '.' + touser + ' ' + '.unread').text();
+    var toUser = touser;
+    var unread = $('.user-list' + ' ' +'.user-list-item'+ '.group' +'.' + toUser + ' ' + '.unread').text();
     var count = Number(unread) + 1;
-    $('.user-list' + ' ' + '.' + touser +' ' +'.unread').text(count);
-    $('.user-list' + ' ' + '.' + touser + " " + '.showTime').text(time.split(" ")[1]);
-    $('.user-list' + ' ' + '.' + touser + ' ' + '.showMessage').text("");
-    $('.user-list' + ' ' + '.' + touser + ' ' + '.showMessage').append(replace_em(content));
+    $('.user-list' + ' ' + '.user-list-item' +'.group' +'.' + toUser +' ' +'.unread').text(count);
+    $('.user-list' + ' ' + '.user-list-item' +'.group' +'.' + toUser + " " + '.showTime').text(time.split(" ")[1]);
+    $('.user-list' + ' ' + '.user-list-item' +'.group' +'.' + toUser + ' ' + '.showMessage').text("");
+    $('.user-list' + ' ' + '.user-list-item' +'.group' +'.' + toUser + ' ' + '.showMessage').append(replace_em(content));
     if ($('.notify').hasClass('on')) {
         notify(touser, content).effect('scale');
     } else {
         notify(touser, content).hide();
     }
     audio.play();
-    var $dom = $(".chat-panel" + " " + "." + touser).filter('.chat-panel-public').find('.public-message-list');
+    var $dom = $(".chat-panel .chat-panel-public").filter("." + toUser).find('.public-message-list');
     $dom.append(
         `<div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${URL}></div><div><div><span class="message-username">${name}</span><span class="time">${time}</span></div><div class="text">${replace_em(content)}</div></div></div></div>`
     );
     scrollBotttom($dom[0]);
 });
 socket.on('user-img',function (name,time,touser,srcImg,URL) {
-    var unread = $('.user-list' + ' ' + '.' + touser + ' ' + '.unread').text();
+    var toUser = touser;
+    var unread = $('.user-list' + ' ' +'.user-list-item'+ '.group' +'.' + toUser + ' ' + '.unread').text();
     var count = Number(unread) + 1;
-    $('.user-list' + ' ' + '.' + touser +' ' +'.unread').text(count);
-    $('.user-list' + ' ' + '.' + touser + " " + '.showTime').text(time.split(" ")[1]);
-    $('.user-list' + ' ' + '.' + touser + ' ' + '.showMessage').text("");
-    $('.user-list' + ' ' + '.' + touser + ' ' + '.showMessage').append('[图片]');
+    $('.user-list' + ' ' + '.user-list-item' +'.group' +'.' + toUser +' ' +'.unread').text(count);
+    $('.user-list' + ' ' + '.user-list-item' +'.group' +'.' + toUser + " " + '.showTime').text(time.split(" ")[1]);
+    $('.user-list' + ' ' + '.user-list-item' +'.group' +'.' + toUser + ' ' + '.showMessage').text("");
+    $('.user-list' + ' ' + '.user-list-item' +'.group' +'.' + toUser + ' ' + '.showMessage').append('[图片]');
     if ($('.notify').hasClass('on')) {
         notify(touser, '[图片]').effect('scale');
     } else {
         notify(touser, '[图片]').hide();
     }
     audio.play();
-    var $dom = $(".chat-panel" + " " + "." + touser).filter('.chat-panel-public').find('.public-message-list');
+    var $dom = $(".chat-panel .chat-panel-public").filter("." + toUser).find('.public-message-list');
     $dom.append(
         `<div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${URL}></div><div><div><span class="message-username">${name}</span><span class="time">${time}</span></div><div class="image"><img src=${srcImg}></div></div></div></div>`
     );
@@ -441,7 +443,7 @@ socket.on('user-img',function (name,time,touser,srcImg,URL) {
 });
 //获取私聊信息
 socket.on('sayToYou', function (fromuser, time, content,URL) {
-    if(!($('.user-list > div').hasClass(fromuser))){
+    if(!($('.user-list .person').hasClass(fromuser))){
         $('.user-list').prepend(`
         <div class="user-list-item person ${fromuser}">
             <div class="avatar"><img src=${URL}></div>
@@ -477,12 +479,12 @@ socket.on('sayToYou', function (fromuser, time, content,URL) {
         `);
     }
 
-    var unread = $(".user-list" + " " + "." + fromuser + " " + ".unread").text();
+    var unread = $(".user-list" + " " + '.user-list-item'+'.person' +"." + fromuser + " " + ".unread").text();
     var count = Number(unread) + 1;
-    $(".user-list" + " " + "." + fromuser + " " + ".unread").text(count);
-    $(".user-list" + " " + "." + fromuser + " " + ".showTime").text(time.split(" ")[1]);
-    $(".user-list" + " " + "." + fromuser + " " + ".showMessage").text("");
-    $(".user-list" + " " + "." + fromuser + " " + ".showMessage").append(replace_em(content));
+    $(".user-list" + " " + '.user-list-item'+'.person' +"." + fromuser + " " + ".unread").text(count);
+    $(".user-list" + " " + '.user-list-item'+'.person' +"." + fromuser + " " + ".showTime").text(time.split(" ")[1]);
+    $(".user-list" + " " + '.user-list-item'+'.person' +"." + fromuser + " " + ".showMessage").text("");
+    $(".user-list" + " " + '.user-list-item'+'.person' +"." + fromuser + " " + ".showMessage").append(replace_em(content));
 
     if ($('.notify').hasClass('on')) {
         notify(fromuser, content).effect('scale');
@@ -490,14 +492,14 @@ socket.on('sayToYou', function (fromuser, time, content,URL) {
         notify(fromuser, content).hide();
     }
     audio.play();
-    var $dom = $(".chat-panel" + " " + "." + fromuser).filter('.chat-panel-private').find(".private-message-list");
+    var $dom = $(".chat-panel .chat-panel-private").filter("." + fromuser).find(".private-message-list");
     $dom.append(
         `<div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${URL}></div><div><div><span class="message-username">${fromuser}</span><span class="time">${time}</span></div><div class="text">${replace_em(content)}</div></div></div></div>`
     );
     scrollBotttom($dom[0]);
 });
 socket.on('imgToYou',function (fromuser, time, srcImg, URL) {
-    if(!($('.user-list > div').hasClass(fromuser))){
+    if(!($('.user-list .person').hasClass(fromuser))){
         $('.user-list').prepend(`
         <div class="user-list-item person ${fromuser}">
             <div class="avatar"><img src=${URL}></div>
@@ -533,12 +535,12 @@ socket.on('imgToYou',function (fromuser, time, srcImg, URL) {
         `);
     }
 
-    var unread = $(".user-list" + " " + "." + fromuser + " " + ".unread").text();
+    var unread = $(".user-list" + " " + '.user-list-item'+'.person' +"." + fromuser + " " + ".unread").text();
     var count = Number(unread) + 1;
-    $(".user-list" + " " + "." + fromuser + " " + ".unread").text(count);
-    $(".user-list" + " " + "." + fromuser + " " + ".showTime").text(time.split(" ")[1]);
-    $(".user-list" + " " + "." + fromuser + " " + ".showMessage").text("");
-    $(".user-list" + " " + "." + fromuser + " " + ".showMessage").append('[图片]');
+    $(".user-list" + " " + '.user-list-item'+'.person' + "." + fromuser + " " + ".unread").text(count);
+    $(".user-list" + " " + '.user-list-item'+'.person' +"." + fromuser + " " + ".showTime").text(time.split(" ")[1]);
+    $(".user-list" + " " + '.user-list-item'+'.person' +"." + fromuser + " " + ".showMessage").text("");
+    $(".user-list" + " " + '.user-list-item'+'.person' +"." + fromuser + " " + ".showMessage").append('[图片]');
 
     if ($('.notify').hasClass('on')) {
         notify(fromuser, '[图片]').effect('scale');
@@ -546,7 +548,7 @@ socket.on('imgToYou',function (fromuser, time, srcImg, URL) {
         notify(fromuser, '[图片]').hide();
     }
     audio.play();
-    var $dom = $(".chat-panel" + " " + "." + fromuser).filter('.chat-panel-private').find(".private-message-list");
+    var $dom = $(".chat-panel .chat-panel-private").filter("." + fromuser).find(".private-message-list");
     $dom.append(
         `<div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${URL}></div><div><div><span class="message-username">${fromuser}</span><span class="time">${time}</span></div><div class="image"><img src=${srcImg}></div></div></div></div>`
     );
@@ -559,12 +561,9 @@ socket.on('userInfo',function (doc,id) {
 //创建群组返回信息
 socket.on('echo',function (data) {
     if('群组已经存在' == data){
-        sweetAlert("ERROR",'群组已经存在',"error");
+        alert('群组已经存在');
     }else{
-        sweetAlert({
-            title:"创建群组成功",
-            type:"success",
-        });
+        alert('创建群组成功');
     }
 });
 //更新群组
@@ -608,14 +607,11 @@ socket.on('setInfoDone',function (d,URL) {
     avatarURL = URL;
     $('.info-header .avatar img').attr('src',avatarURL);
     $('.chat-panel .message-list .message-list-item .message-self .avatar img').attr('src',avatarURL);
-    sweetAlert({
-        title:"成功更改资料",
-        type:"success",
-    });
+    alert('成功更改资料');
 });
 //信息更改失败
 socket.on('modifyFail',function (err) {
-    sweetAlert("ERROR",err,"error");
+    alert(err);
 });
 //监听其他用户头像更新
 socket.on('urlUpdate',function (who, url) {
@@ -644,7 +640,7 @@ socket.on('megs-lists',function (name, docs) {
                     <span class="message-username">${value.name}</span>
                     <span class="time">${value.time}</span>
                     </div>
-                    <div class="text">${replace_em(value.data)}</div>
+                    <div class="text-self">${replace_em(value.data)}</div>
                     </div>
                     </div>
                 </div>

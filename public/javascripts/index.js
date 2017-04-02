@@ -7,6 +7,7 @@ var $group_manage = $('.group-manage');
 var $system_setting = $('.system-setting');
 var $user_info = $('#user-info');
 var $self_info = $('#self-info');
+var $deleteBt = $('.delete-g .dg');
 
 var current = 0;
 //头像上传qiniu
@@ -57,6 +58,7 @@ $(document).on('click',function(){
     $system_setting.hide();
     $user_info.hide();
     $self_info.hide();
+    $deleteBt.hide();
 });
 
 
@@ -113,7 +115,7 @@ $('.user-panel .user-list').on('click',' .group',function(e){
     var username = $(this).find('.username').text();
     $(this).find('.unread').text("0");
     $('.chat-panel > div').css('display','none');
-    $('.chat-panel' + ' ' + '.' + username).css({"display": "flex"
+    $('.chat-panel' + ' '+ '.chat-panel-public' +'.' + username).css({"display": "flex"
     ,"display": "-webkit-flex"});
     username = '';
     // $('.chat-panel-public .chat-panel-header span').text(username);
@@ -123,7 +125,7 @@ $('.user-panel .user-list').on('click','.person',function(e){
     var username = $(this).find('.username').text();
     $(this).find('.unread').text("0");
     $('.chat-panel > div').css('display','none');
-    $('.chat-panel' + ' ' + '.' + username).css({"display": "flex"
+    $('.chat-panel' + ' ' + '.chat-panel-private' +'.' + username).css({"display": "flex"
         ,"display": "-webkit-flex"});
     // $('.chat-panel-private .chat-panel-header span').text(username);
     username = '';
@@ -168,7 +170,7 @@ $('#user-info .chatPrivate').on('click',function (e) {
     $(this).parents('#user-info').hide();
     var name = $('#user-info>:nth-child(100n+3) span').text();
     var URL = $('#user-info > div:nth-child(100n+2) img').attr('src');
-    if(!($('.user-list > div').hasClass(name))){
+    if(!($('.user-list .person').hasClass(name))){
         $('.user-list').prepend(`
         <div class="user-list-item person ${name}">
             <div class="avatar"><img src=${URL}></div>
@@ -325,7 +327,7 @@ $('.preview .prenext span:nth-child(100n+1)').on('click',function (e) {
     }
 });
 
-
+//图片旋转
 $('.preview .img-tools >:nth-child(100n+1)').on('click',function () {
     current = (current+90)%360;
     $('.preview .showImg img').css('transform','rotate('+'-'+current+'deg)');
@@ -333,4 +335,21 @@ $('.preview .img-tools >:nth-child(100n+1)').on('click',function () {
 $('.preview .img-tools >:nth-child(100n+2)').on('click',function () {
     current = (current+90)%360;
     $('.preview .showImg img').css('transform','rotate('+current+'deg)');
+});
+//删除群组
+$('.user-list').on('contextmenu','.user-list-item.group',function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var _left = e.pageX + 'px';
+    var _top = e.pageY + 'px';
+    $deleteBt.css({'left':_left,'top':_top});
+    $deleteBt.attr('data-target',e.target.className);
+    $deleteBt.fadeToggle();
+});
+$deleteBt.on('click',function () {
+   var _target = $deleteBt.attr('data-target');
+   var cN = _target.split(' ');
+   var _calss = '.' + cN[0] + '.' + cN[1] + '.' + cN[2];
+   console.log(_calss);
+   $(_calss).remove();
 });

@@ -52,7 +52,7 @@ body{
 .preview .showImg img{
     box-shadow: 0 0 6px #333333;
 }
-.preview .showImg > div{
+.preview .showImg > :nth-child(100n+2){
     position: absolute;
     width: 24px;
     height: 24px;
@@ -90,12 +90,14 @@ body{
     display: -webkit-flex;
     display: flex;
     justify-content: space-around;
-    top: 101%;
-    left:32%;
+    top: -30px;
+    right:-2%;
     width:100px;
     z-index: 10000;
 }
 .preview .img-tools span{
+    height: 25px;
+    line-height: 25px;
     color: #e6e6e6;
     font-size: 12px;
     /*padding: 5px 20px;*/
@@ -208,6 +210,14 @@ body{
 .user-panel .nav-tab .tab-item span{
     text-align:center;
     /*flex:1;*/
+}
+
+.app .delete-g .dg{
+    position: absolute;
+    z-index: 1000;
+    font-size: 12px;
+    padding: 2px 5px;
+    display: none;
 }
 
 .group-manage{
@@ -582,8 +592,25 @@ body{
 .message-list-item .message-self{
     flex-direction: row-reverse;
 }
-.message-list-item .message-self .text{
-    background-color: rgba(47,58,128,0.1) !important;
+.message-list-item .message-self .text-self{
+    position: relative;
+    padding: 5px 10px;
+    margin: 0;
+    word-break: break-all;
+    border-radius: 5px;
+    display: inline-block;
+    background-color: rgb(81,101,227);
+    color: #000;
+}
+.message-list-item .message-self .text-self:after{
+    content: '';
+    width:0;
+    height: 0;
+    position: absolute;
+    top:3px;
+    border:solid 8px;
+    right: -13px;
+    border-color: transparent transparent transparent rgb(81, 101, 227);
 }
 .message-list-item .native-message>:nth-child(1000n+2) .image{
     max-width: 200px;
@@ -620,13 +647,23 @@ body{
     margin-right:5px;
 }
 .message-list-item .native-message>:last-child .text{
+    position: relative;
     padding: 5px 10px;
     margin: 0;
-    box-shadow: 3px 3px 10px #aaa;
     word-break: break-all;
-    border-radius: 10px;
+    border-radius: 5px;
     display: inline-block;
     background-color: #f1f1f1;
+}
+.message-list-item .native-message>:last-child .text:after{
+    content: '';
+    width:0;
+    height: 0;
+    position: absolute;
+    top:3px;
+    left: -12px;
+    border:solid 8px;
+    border-color: transparent #f1f1f1 transparent transparent ;
 }
 .chat-panel .input-box{
     position: relative;
