@@ -61,6 +61,7 @@ $('#register').click(function(){
     var age = $("#age").val();
     var city = $("#city").val();
     var sex = $(".option").val();
+    var retrieve = $('.question input').val();
 
     var data = {
         'avatar':imageURL,
@@ -69,7 +70,8 @@ $('#register').click(function(){
         'career':career,
         'age':age,
         'city':city,
-        'sex':sex
+        'sex':sex,
+        'retrieve':retrieve
     };
     $.ajax({
         url:'/register',

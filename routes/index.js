@@ -126,4 +126,20 @@ router.get('/uptoken', function(req, res) {
 //     req.session.erroe = null;
 //     res.redirect('/');
 // });
+router.post('/retrieve',function (req, res) {
+    var User = global.dbHandle.getModel('user');
+    var uname = req.body.username;
+    var qs = req.body.qs;
+    User.findOne({name:uname,retrieve:qs},function (err, doc) {
+        if(err){
+            console.log(err);
+            res.send(500,"答案错误");
+        }else{
+            res.send(200,doc.password);
+        }
+    });
+
+
+
+});
 module.exports = router;

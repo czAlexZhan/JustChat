@@ -29,6 +29,9 @@ img{
     filter: blur(10px);
     z-index: -1;
 }
+.repwd{
+    position: fixed;
+}
 .sr-only {
     position: absolute;
     width: 1px;

@@ -1,10 +1,4 @@
-/*body{*/
-    /*!*background-color: #000000;*!*/
-    /*background-image: url("../images/bg.jpg");*/
-    /*background-repeat: no-repeat;*/
-    /*background-size: 100%;*/
-    /*!*background-position: center center;*!*/
-/*}*/
+
 img{
     max-width: 100%;
 }
@@ -29,6 +23,42 @@ img{
     -webkit-filter: blur(10px);
     filter: blur(10px);
     z-index: -1;
+}
+.repwd{
+    position: fixed;
+    width:100%;
+    height:100%;
+    z-index: 1000;
+    background: rgba(23, 22, 22, 0.53);
+    display: none;
+}
+.repwd > div {
+    width: 300px;
+    margin: 300px auto;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    background: #ececec;
+    align-items: center;
+    box-shadow: 0 0 15px rgb(115, 114, 114);
+}
+.repwd > div >:nth-child(100n+1){
+    padding: 12px 5px;
+}
+.repwd > div input{
+    width: 150px;
+    margin-bottom: 10px;
+}
+.repwd .bt button{
+    border: none;
+    color: #fff;
+    text-shadow: 1px 1px 1px #333;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.repwd .bt button:hover{
+    background-color: #03a9f4;
 }
 .sr-only {
     position: absolute;
@@ -140,8 +170,16 @@ input:-webkit-autofill {
     /*background: url(../images/dog.jpg);*/
     /*background-size: cover;*/
 }
-/*.wrap .toxiang input{*/
-    /*opacity: 0;*/
-    /*width: inherit;*/
-    /*height: inherit;*/
-/*}*/
+.wrap .retrieve{
+    position: absolute;
+    bottom: 0%;
+    right: -9%;
+}
+.retrieve span {
+    color: #dedede;
+    font-size: 13px;
+    cursor: pointer;
+}
+.retrieve span:hover{
+    color: #03a9f4;
+}

@@ -4,14 +4,15 @@
  */
 module.exports = {
     user:{
-        avatar:{type:String,required:true},
+        avatar:{type:String,default:"http://ok2xurmdf.bkt.clouddn.com//o_1bbm42u9h17a03qkgdk1v9qlgoc.gif?imageMogr2/thumbnail/100x100!/blur/1x0/quality/100"},
         name:{type:String,required:true},
         password:{type:String,required:true},
         sex:{type:String,default:"男"},
         career:{type:String,default:"学生"},
         age:{type:String,default:"18"},
         city:{type:String,default:"广州"},
-        status:{type:String,default:"down"}
+        retrieve:{type:String,default:"2017"},
+        status:{type:String,default:"down"},
     },
     group:{
         name:{type:String,required:true},
