@@ -86,7 +86,6 @@ $('.system-setting').on('click',false);
 $('#user-info').on('click',false);
 $('#self-info').on('click',false);
 
-
 //监听关闭点击事件
 $('.glyphicon-remove').on('click',function(e){
     e.stopPropagation();
@@ -153,15 +152,9 @@ $('.chat-panel').on('click','.chat-panel-public .message-list .avatar',function 
     if($parent.hasClass('message-self')){
         var id = '#self-info';
         getUserInfo(name,id);
-        $('.user-info').hide();
-        $('#self-info>:nth-child(100n+3) span').text(name);
-        $('#self-info').fadeToggle();
     }else{
         var id = '#user-info';
         getUserInfo(name,id);
-        $('.user-info').hide();
-        $('#user-info>:nth-child(100n+3) span').text(name);
-        $('#user-info').fadeToggle();
     }
 
 });
@@ -205,14 +198,14 @@ $('#user-info .chatPrivate').on('click',function (e) {
                     </div>     
         `);
         $('.chat-panel > div').css('display','none');
-        $('.chat-panel' + ' ' + '.' + name).css({"display": "flex"
+        $('.chat-panel' + ' ' + '.' + name).filter('.chat-panel-private').css({"display": "flex"
             ,"display": "-webkit-flex"});
     }else{
-        $('.chat-panel > div').css('display','none');
+        $('.chat-panel > div').filter('.chat-panel-private').css('display','none');
         $('.chat-panel' + ' ' + '.' + name).css({"display": "flex"
             ,"display": "-webkit-flex"});
     }
-
+    // usersOfflineCache(name);
 });
 //点击创建群组
 $('.cBtn').on('click',function () {
@@ -350,6 +343,5 @@ $deleteBt.on('click',function () {
    var _target = $deleteBt.attr('data-target');
    var cN = _target.split(' ');
    var _calss = '.' + cN[0] + '.' + cN[1] + '.' + cN[2];
-   console.log(_calss);
    $(_calss).remove();
 });

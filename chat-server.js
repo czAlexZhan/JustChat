@@ -130,7 +130,7 @@ server.on('connection',function(socket){
             // console.log(fromuser + " 给 " + touser + "发了私信： " + srcImg);
         }
     });
-    //获取聊天记录
+    //获取群聊聊天记录
     socket.on('findCache',function (groupName) {
         Content.find({toUser:groupName},null,{limit: 20, sort:{_id:-1}},function (err, docs) {
             if(err){
@@ -140,6 +140,22 @@ server.on('connection',function(socket){
             }
         });
     });
+    //获取私聊聊天记录
+    socket.on('findUsersCache',function (name, touser) {
+        Content.find({name:name,toUser:touser},null,{limit: 20, sort:{_id:-1}},function (err, docs) {
+            if(err){
+                console.log(err);
+            }else{
+                User.findOne({name:touser},function (err, doc) {
+                    if(err){
+                        console.log(err);
+                    }else{
+                        socket.emit('users-megs',touser,doc.avatar,docs);
+                    }
+                });
+            }
+        });
+    })
     //获取用户信息
     socket.on('getInfo',function (userName,id) {
         User.find({name:userName},function (err, doc) {

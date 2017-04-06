@@ -99,6 +99,9 @@ function updateInfo(doc,id){
             $(this).text(info[index]);
         });
     });
+    $('.user-info').hide();
+    $(id+'>:nth-child(100n+3) span').text(doc[0].name);
+    $(id).fadeToggle();
 }
 //查看结果
 function replace_em(str) {
@@ -129,6 +132,15 @@ function getUserInfo(name,id) {
 //修改用户信息
 function  modifyUserInfo(name,data) {
     socket.emit('setInfo',name,data);
+}
+
+//搜索用户
+function  searchUser(e) {
+    if(e.keyCode == 13){
+        var username = $(e.target).val();
+        getUserInfo(username,'#user-info');
+        $(e.target).val('');
+    }
 }
 
 //创建群聊请求
@@ -326,9 +338,13 @@ function scrollBotttom(dom) {
     var height=dom.scrollHeight;
     $(dom).animate({scrollTop:height}, 800);
 }
-//离线存储
+//群聊离线存储
 function offlineCache(group_name) {
     socket.emit('findCache',group_name);
+}
+//私聊离线存储
+function usersOfflineCache(touser) {
+    socket.emit('findUsersCache',username,touser);
 }
 //监听连接，进入聊天
 socket.on('connect', function () {
@@ -556,7 +572,11 @@ socket.on('imgToYou',function (fromuser, time, srcImg, URL) {
 })
 //获取用户信息
 socket.on('userInfo',function (doc,id) {
-    updateInfo(doc,id);
+    if(doc.length == "1"){
+        updateInfo(doc,id);
+    }else{
+        alert("查无此用户");
+    }
 });
 //创建群组返回信息
 socket.on('echo',function (data) {
@@ -669,6 +689,55 @@ socket.on('megs-lists',function (name, docs) {
             }else{
                 $megs_panel.prepend(`
                     <div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${value.avatar}></div><div><div><span class="message-username">${value.name}</span><span class="time">${value.time}</span></div><div class="image"><img src=${value.data}></div></div></div></div>
+                `);
+            }
+        }
+    });
+});
+//获取私聊聊天缓存
+socket.on('users-megs',function (touser,touserAvatar ,docs) {
+    var $megs_panel = $('.chat-panel'+' '+'.'+touser).filter('.chat-panel-private').find('.private-message-list');
+    $.each(docs,function (index, value) {
+        if(username == value.name){
+            if(value.dataType == 'text'){
+                $megs_panel.prepend(`
+                <div class="message-list-item">
+                    <div class="native-message message-self">
+                    <div class="avatar"><img src=${avatarURL}></div>
+                    <div>
+                    <div>
+                    <span class="message-username">${value.name}</span>
+                    <span class="time">${value.time}</span>
+                    </div>
+                    <div class="text-self">${replace_em(value.data)}</div>
+                    </div>
+                    </div>
+                </div>
+                `);
+            }else{
+                $megs_panel.prepend(`
+                    <div class="message-list-item">
+                                <div class="native-message message-self">
+                                <div class="avatar"><img src=${avatarURL}></div>
+                                <div>
+                                <div>
+                                <span class="message-username">${username}</span>
+                                <span class="time">${value.time}</span>
+                                </div>
+                                <div class="image"><img style="max-height: 200px;" src=${value.data}></div>
+                                </div>
+                                </div>
+                    </div>
+                `);
+            }
+        }else{
+            if(value.dataType == 'text'){
+                $megs_panel.prepend(`
+                    <div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${touserAvatar}></div><div><div><span class="message-username">${value.name}</span><span class="time">${value.time}</span></div><div class="text">${replace_em(value.data)}</div></div></div></div>
+                `);
+            }else{
+                $megs_panel.prepend(`
+                    <div class="message-list-item"><div class="native-message"><div class="avatar"><img src=${touserAvatar}></div><div><div><span class="message-username">${value.name}</span><span class="time">${value.time}</span></div><div class="image"><img src=${value.data}></div></div></div></div>
                 `);
             }
         }
